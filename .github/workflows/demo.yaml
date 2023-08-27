@@ -23,16 +23,15 @@ jobs:
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
+    continue-on-error: true
 
-  prod:    
-    if: ${{ always() }}
+  prod:        
     needs: integration
     runs-on: ubuntu-20.04
     steps:
       - run: echo "This is a deploy step"
       
-  artifact:
-    if: ${{ always() }}
+  artifact:    
     needs: prod
     runs-on: ubuntu-20.04
     steps:

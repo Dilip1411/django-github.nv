@@ -16,8 +16,6 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
     steps:
       - run: echo "This is a test step"
 
@@ -33,16 +31,12 @@ jobs:
   prod:
     needs: integration
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
     steps:
       - run: echo "This is a deploy step"
       
   artifact:
     needs: prod
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
     steps:
       - name: Create artifact file
         run: echo "hello" > hello.txt

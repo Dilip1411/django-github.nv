@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04                    # similar to "image" in GitLab
-    strategy:
-      fail-fast: false
+    runs-on: ubuntu-20.04                    # similar to "image" in GitLab   
     steps:
       - run: echo "This is a build step"      # similar to "script" in GitLab
 
@@ -21,14 +19,13 @@ jobs:
 
   integration:
     needs: test
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
+    runs-on: ubuntu-20.04    
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
 
   prod:
+    if: always()
     needs: integration
     runs-on: ubuntu-20.04
     steps:

@@ -19,13 +19,14 @@ jobs:
 
   integration:
     needs: test
-    runs-on: ubuntu-20.04    
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
     steps:
       - run: echo "This is an integration step"
       - run: exit 1
 
-  prod:
-    if: always()
+  prod:    
     needs: integration
     runs-on: ubuntu-20.04
     steps:

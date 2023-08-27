@@ -1,40 +1,53 @@
 name: Django                                  # workflow name
 
 on:
-  push:                                       
-    branches:                                 # similar to "only" in GitLab
+  push:
+    branches:
       - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04                    # similar to "image" in GitLab   
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "This is a build step"      # similar to "script" in GitLab
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build application
+        run: echo "Building the application..."
 
   test:
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "This is a test step"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run tests
+        run: echo "Running tests..."
 
   integration:
     needs: test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: false  # Allow this job to fail without affecting the workflow
     steps:
-      - run: echo "This is an integration step"
-      - run: exit 1
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests..."
+          exit 1  # Simulate a failed integration test
 
-  prod:    
+  deploy:
     needs: integration
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "This is a deploy step"
-      
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy application
+        run: echo "Deploying the application..."
+
   artifact:
-    needs: prod
-    runs-on: ubuntu-20.04
+    needs: deploy
+    runs-on: ubuntu-latest
     steps:
       - name: Create artifact file
         run: echo "hello" > hello.txt
